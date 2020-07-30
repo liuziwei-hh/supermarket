@@ -50,25 +50,43 @@ public class Calculator {
 
     private BigDecimal getPointMoreThan1000(BigDecimal totalPoint, BigDecimal total, BigDecimal inSaleGoods, BigDecimal notInSaleGoods) {
         if (inSaleGoods.equals(BigDecimal.valueOf(0))) {
-            totalPoint = BigDecimal.valueOf(1000).add(total.subtract(BigDecimal.valueOf(1000)).divide(BigDecimal.valueOf(20))).setScale(0, BigDecimal.ROUND_DOWN);
+            totalPoint = getPointInSales(total);
         }
-        else if (notInSaleGoods.equals(BigDecimal.valueOf(0))) {
-            totalPoint = BigDecimal.valueOf(1000).multiply(BigDecimal.valueOf(2)).add(total.subtract(BigDecimal.valueOf(1000)));
+        if (notInSaleGoods.equals(BigDecimal.valueOf(0))) {
+            totalPoint = getPointNotInSales(total);
         }
-        else if (notInSaleGoods.compareTo(BigDecimal.valueOf(0)) > 0 && inSaleGoods.compareTo(BigDecimal.valueOf(0))>0) {
-            if (inSaleGoods.compareTo(BigDecimal.valueOf(1000)) == 1) {
-                totalPoint = BigDecimal.valueOf(1000)
-                        .multiply(BigDecimal.valueOf(2))
-                        .add(inSaleGoods.subtract(BigDecimal.valueOf(1000)))
-                        .add(notInSaleGoods.divide(BigDecimal.valueOf(20)));
-            } else {
-                totalPoint = inSaleGoods
-                        .multiply(BigDecimal.valueOf(2))
-                        .add(BigDecimal.valueOf(1000).subtract(inSaleGoods))
-                        .add(notInSaleGoods
-                                .subtract(BigDecimal.valueOf(1000).subtract(inSaleGoods))
-                                        .divide(BigDecimal.valueOf(20)));
-            }
+        if (notInSaleGoods.compareTo(BigDecimal.valueOf(0)) > 0 && inSaleGoods.compareTo(BigDecimal.valueOf(0))>0) {
+            totalPoint = getPointContainsSalesAndNotSales(inSaleGoods, notInSaleGoods);
+        }
+        return totalPoint;
+    }
+
+    private BigDecimal getPointNotInSales(BigDecimal total) {
+        BigDecimal totalPoint;
+        totalPoint = BigDecimal.valueOf(1000).multiply(BigDecimal.valueOf(2)).add(total.subtract(BigDecimal.valueOf(1000)));
+        return totalPoint;
+    }
+
+    private BigDecimal getPointInSales(BigDecimal total) {
+        BigDecimal totalPoint;
+        totalPoint = BigDecimal.valueOf(1000).add(total.subtract(BigDecimal.valueOf(1000)).divide(BigDecimal.valueOf(20))).setScale(0, BigDecimal.ROUND_DOWN);
+        return totalPoint;
+    }
+
+    private BigDecimal getPointContainsSalesAndNotSales(BigDecimal inSaleGoods, BigDecimal notInSaleGoods) {
+        BigDecimal totalPoint;
+        if (inSaleGoods.compareTo(BigDecimal.valueOf(1000)) == 1) {
+            totalPoint = BigDecimal.valueOf(1000)
+                    .multiply(BigDecimal.valueOf(2))
+                    .add(inSaleGoods.subtract(BigDecimal.valueOf(1000)))
+                    .add(notInSaleGoods.divide(BigDecimal.valueOf(20)));
+        } else {
+            totalPoint = inSaleGoods
+                    .multiply(BigDecimal.valueOf(2))
+                    .add(BigDecimal.valueOf(1000).subtract(inSaleGoods))
+                    .add(notInSaleGoods
+                            .subtract(BigDecimal.valueOf(1000).subtract(inSaleGoods))
+                                    .divide(BigDecimal.valueOf(20)));
         }
         return totalPoint;
     }
