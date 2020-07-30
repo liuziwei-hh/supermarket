@@ -3,12 +3,19 @@ package point;
 import java.math.BigDecimal;
 import java.util.List;
 
-class Calculator {
-    BigDecimal calculate(Goods goods, List<Point> points) {
-        BigDecimal ratioSum = points.stream()
-                .map(point -> point.chargePoint(goods))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        return ratioSum.multiply(BigDecimal.valueOf(goods.getPoint())).setScale(0);
+public class Calculator {
+    BigDecimal calculate(List<Goods> goods) {
+        BigDecimal totalPoint = BigDecimal.ZERO;
+       for (int index=0;index < goods.size(); index++) {
+           Goods currentGoods=goods.get(index);
+           if(currentGoods.isInSale()){
+               totalPoint=totalPoint.add(currentGoods.getSubTotal().multiply(BigDecimal.valueOf(2)));
+           }
+           else{
+               totalPoint=totalPoint.add(currentGoods.getSubTotal());
+           }
+       }
+        return totalPoint;
     }
+
 }

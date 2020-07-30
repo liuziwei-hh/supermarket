@@ -1,25 +1,34 @@
 package point;
 
-public class Goods {
-    private final GoodsType goodsType;
-    private final int price;
-    private final Origin origin;
+import java.math.BigDecimal;
 
-    Goods(GoodsType goodsType, int price, Origin origin) {
-        this.goodsType = goodsType;
+public class Goods {
+    private final BigDecimal price;
+    private int count;
+    private String name;
+
+    Goods(String name, BigDecimal price, int count) {
+        this.count = count;
         this.price = price;
-        this.origin = origin;
+        this.name=name;
     }
 
-    int getPoint() {
+    BigDecimal getPoint() {
         return price;
     }
 
-    GoodsType getType() {
-        return goodsType;
+
+    boolean isInSale(){
+
+        for (int index=0;index<InSaleGoodsType.values().length;index++){
+            if(InSaleGoodsType.values()[index].getName().equals(name)){
+                return true;
+            }
+        }
+        return  false;
     }
 
-    boolean isSale() {
-        return origin.equals(Origin.SALE);
+    public BigDecimal getSubTotal() {
+        return this.price.multiply(BigDecimal.valueOf(count));
     }
 }
