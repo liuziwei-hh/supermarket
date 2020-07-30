@@ -52,13 +52,13 @@ public class Calculator {
     }
 
     private BigDecimal getPointMoreThan1000(BigDecimal totalPoint, BigDecimal total, BigDecimal inSaleGoods, BigDecimal notInSaleGoods) {
-        if (inSaleGoods.equals(BigDecimal.valueOf(0))) {
+        if (inSaleGoods.equals(BigDecimal.ZERO)) {
             totalPoint = getPointInSales(total);
         }
-        if (notInSaleGoods.equals(BigDecimal.valueOf(0))) {
+        if (notInSaleGoods.equals(BigDecimal.ZERO)) {
             totalPoint = getPointNotInSales(total);
         }
-        if (notInSaleGoods.compareTo(BigDecimal.valueOf(0)) > 0 && inSaleGoods.compareTo(BigDecimal.valueOf(0))>0) {
+        if (notInSaleGoods.compareTo(BigDecimal.ZERO) > 0 && inSaleGoods.compareTo(BigDecimal.ZERO)>0) {
             totalPoint = getPointContainsSalesAndNotSales(inSaleGoods, notInSaleGoods);
         }
         return totalPoint;
