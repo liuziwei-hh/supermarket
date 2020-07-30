@@ -48,6 +48,18 @@ public class CalculatorTest {
         //then
         assertThat(point, is(BigDecimal.valueOf(1067)));
     }
+    @Test
+    public void should_return_point_when_calculate_given_bought_in_sales_more_than_1000() {
+        //given
+        List<Goods> goods = Arrays.asList(new Goods("电视机", BigDecimal.valueOf(2000), 1));
+        Calculator calculator = new Calculator();
+
+        //when
+        BigDecimal point = calculator.calculate(goods);
+
+        //then
+        assertThat(point, is(BigDecimal.valueOf(3000)));
+    }
 }
 
 
