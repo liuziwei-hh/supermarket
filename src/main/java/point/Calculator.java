@@ -3,11 +3,11 @@ package point;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class Calculator {
+ class Calculator {
 
-    public static final BigDecimal TOTAL_POINT_LINE = BigDecimal.valueOf(1000);
-    public static final BigDecimal POINT_DOUBLE = BigDecimal.valueOf(2);
-    public static final BigDecimal POINT_DIVISOR = BigDecimal.valueOf(20);
+    private static final BigDecimal TOTAL_POINT_LINE = BigDecimal.valueOf(1000);
+    private static final BigDecimal POINT_DOUBLE = BigDecimal.valueOf(2);
+    private static final BigDecimal POINT_DIVISOR = BigDecimal.valueOf(20);
 
     BigDecimal getTotal(List<Goods> goods) {
         BigDecimal total = BigDecimal.ZERO;
