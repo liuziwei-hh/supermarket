@@ -4,6 +4,11 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class Calculator {
+
+    public static final BigDecimal TOTAL_POINT_LINE = BigDecimal.valueOf(1000);
+    public static final BigDecimal POINT_DOUBLE = BigDecimal.valueOf(2);
+    public static final BigDecimal POINT_DIVISOR = BigDecimal.valueOf(20);
+
     BigDecimal getTotal(List<Goods> goods) {
         BigDecimal total = BigDecimal.ZERO;
         for (int index = 0; index < goods.size(); index++) {
@@ -14,14 +19,14 @@ public class Calculator {
     }
 
     BigDecimal getInSaleGoods(List<Goods> goods) {
-        BigDecimal InSaletotal = BigDecimal.ZERO;
+        BigDecimal inSaleTotal = BigDecimal.ZERO;
         for (int index = 0; index < goods.size(); index++) {
             Goods currentGoods = goods.get(index);
             if (currentGoods.isInSale()) {
-                InSaletotal = InSaletotal.add(currentGoods.getSubTotal());
+                inSaleTotal = inSaleTotal.add(currentGoods.getSubTotal());
             }
         }
-        return InSaletotal;
+        return inSaleTotal;
     }
 
     BigDecimal getNotInSaleGoods(List<Goods> goods) {
@@ -40,7 +45,7 @@ public class Calculator {
         BigDecimal total = getTotal(goods);
         BigDecimal inSaleGoods = getInSaleGoods(goods);
         BigDecimal notInSaleGoods = getNotInSaleGoods(goods);
-        if (total.compareTo(BigDecimal.valueOf(1000)) == 1) {
+        if (total.compareTo(TOTAL_POINT_LINE) == 1) {
             totalPoint = getPointMoreThan1000(totalPoint, total, inSaleGoods, notInSaleGoods);
         } else {
             totalPoint = getPointLessThan1000(goods, totalPoint);
@@ -63,30 +68,34 @@ public class Calculator {
 
     private BigDecimal getPointNotInSales(BigDecimal total) {
         BigDecimal totalPoint;
-        totalPoint = BigDecimal.valueOf(1000).multiply(BigDecimal.valueOf(2)).add(total.subtract(BigDecimal.valueOf(1000)));
+        totalPoint = TOTAL_POINT_LINE
+                .multiply(POINT_DOUBLE)
+                .add(total.subtract(TOTAL_POINT_LINE));
         return totalPoint;
     }
 
     private BigDecimal getPointInSales(BigDecimal total) {
         BigDecimal totalPoint;
-        totalPoint = BigDecimal.valueOf(1000).add(total.subtract(BigDecimal.valueOf(1000)).divide(BigDecimal.valueOf(20))).setScale(0, BigDecimal.ROUND_DOWN);
+        totalPoint = TOTAL_POINT_LINE
+                .add(total.subtract(TOTAL_POINT_LINE).divide(POINT_DIVISOR))
+                .setScale(0, BigDecimal.ROUND_DOWN);
         return totalPoint;
     }
 
     private BigDecimal getPointContainsSalesAndNotSales(BigDecimal inSaleGoods, BigDecimal notInSaleGoods) {
         BigDecimal totalPoint;
-        if (inSaleGoods.compareTo(BigDecimal.valueOf(1000)) == 1) {
-            totalPoint = BigDecimal.valueOf(1000)
-                    .multiply(BigDecimal.valueOf(2))
-                    .add(inSaleGoods.subtract(BigDecimal.valueOf(1000)))
-                    .add(notInSaleGoods.divide(BigDecimal.valueOf(20)));
+        if (inSaleGoods.compareTo(TOTAL_POINT_LINE) == 1) {
+            totalPoint = TOTAL_POINT_LINE
+                    .multiply(POINT_DOUBLE)
+                    .add(inSaleGoods.subtract(TOTAL_POINT_LINE))
+                    .add(notInSaleGoods.divide(POINT_DIVISOR));
         } else {
             totalPoint = inSaleGoods
-                    .multiply(BigDecimal.valueOf(2))
-                    .add(BigDecimal.valueOf(1000).subtract(inSaleGoods))
+                    .multiply(POINT_DOUBLE)
+                    .add(TOTAL_POINT_LINE.subtract(inSaleGoods))
                     .add(notInSaleGoods
-                            .subtract(BigDecimal.valueOf(1000).subtract(inSaleGoods))
-                                    .divide(BigDecimal.valueOf(20)));
+                            .subtract(TOTAL_POINT_LINE.subtract(inSaleGoods))
+                                    .divide(POINT_DIVISOR));
         }
         return totalPoint;
     }
@@ -95,7 +104,7 @@ public class Calculator {
         for (int index = 0; index < goods.size(); index++) {
             Goods currentGoods = goods.get(index);
             if (currentGoods.isInSale()) {
-                totalPoint = totalPoint.add(currentGoods.getSubTotal().multiply(BigDecimal.valueOf(2)));
+                totalPoint = totalPoint.add(currentGoods.getSubTotal().multiply(POINT_DOUBLE));
             } else {
                 totalPoint = totalPoint.add(currentGoods.getSubTotal());
             }
