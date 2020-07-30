@@ -20,8 +20,7 @@ public class Calculator {
 
     BigDecimal getInSaleGoods(List<Goods> goods) {
         BigDecimal inSaleTotal = BigDecimal.ZERO;
-        for (int index = 0; index < goods.size(); index++) {
-            Goods currentGoods = goods.get(index);
+        for (Goods currentGoods : goods) {
             if (currentGoods.isInSale()) {
                 inSaleTotal = inSaleTotal.add(currentGoods.getSubTotal());
             }
@@ -31,8 +30,7 @@ public class Calculator {
 
     BigDecimal getNotInSaleGoods(List<Goods> goods) {
         BigDecimal NotInSaletotal = BigDecimal.ZERO;
-        for (int index = 0; index < goods.size(); index++) {
-            Goods currentGoods = goods.get(index);
+        for (Goods currentGoods : goods) {
             if (!currentGoods.isInSale()) {
                 NotInSaletotal = NotInSaletotal.add(currentGoods.getSubTotal());
             }
@@ -101,8 +99,7 @@ public class Calculator {
     }
 
     private BigDecimal getPointLessThan1000(List<Goods> goods, BigDecimal totalPoint) {
-        for (int index = 0; index < goods.size(); index++) {
-            Goods currentGoods = goods.get(index);
+        for (Goods currentGoods : goods) {
             if (currentGoods.isInSale()) {
                 totalPoint = totalPoint.add(currentGoods.getSubTotal().multiply(POINT_DOUBLE));
             } else {
