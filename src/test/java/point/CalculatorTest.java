@@ -60,6 +60,30 @@ public class CalculatorTest {
         //then
         assertThat(point, is(BigDecimal.valueOf(3000)));
     }
+    @Test
+    public void should_return_point_when_calculate_given_bought_in_sales_and_not_in_sales_which_in_sale_not_more_than_1000() {
+        //given
+        List<Goods> goods = Arrays.asList(new Goods("电视机", BigDecimal.valueOf(800), 1),new Goods("洗衣机", BigDecimal.valueOf(2000), 1));
+        Calculator calculator = new Calculator();
+
+        //when
+        BigDecimal point = calculator.calculate(goods);
+
+        //then
+        assertThat(point, is(BigDecimal.valueOf(1890)));
+    }
+    @Test
+    public void should_return_point_when_calculate_given_bought_in_sales_and_not_in_sales_which_in_sale_more_than_1000() {
+        //given
+        List<Goods> goods = Arrays.asList(new Goods("电视机", BigDecimal.valueOf(2000), 1),new Goods("香蕉", BigDecimal.valueOf(20), 1));
+        Calculator calculator = new Calculator();
+
+        //when
+        BigDecimal point = calculator.calculate(goods);
+
+        //then
+        assertThat(point, is(BigDecimal.valueOf(3001)));
+    }
 }
 
 
