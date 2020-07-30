@@ -35,6 +35,19 @@ public class CalculatorTest {
         //then
         assertThat(point, is(BigDecimal.valueOf(100)));
     }
+
+    @Test
+    public void should_return_point_when_calculate_given_bought_not_in_sales_more_than_1000() {
+        //given
+        List<Goods> goods = Arrays.asList(new Goods("冰箱", BigDecimal.valueOf(2350), 1));
+        Calculator calculator = new Calculator();
+
+        //when
+        BigDecimal point = calculator.calculate(goods);
+
+        //then
+        assertThat(point, is(BigDecimal.valueOf(1067)));
+    }
 }
 
 
