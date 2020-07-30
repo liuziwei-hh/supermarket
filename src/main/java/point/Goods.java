@@ -31,4 +31,6 @@ public class Goods {
     public BigDecimal getSubTotal() {
         return this.price.multiply(BigDecimal.valueOf(count));
     }
+
+
 }
